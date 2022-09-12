@@ -42,9 +42,14 @@ class AuthController extends Controller
         ]);
         if (!$token = auth()->attempt($request->all())) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Unauthorized',
             ], 401);
         }
+//        $user = auth()->user();
+//        return response()->json([
+//            'user' => $user,
+//            'token' => $token
+//        ]);
         return $this->responseToken($token);
     }
     public function refresh(){
@@ -67,7 +72,7 @@ class AuthController extends Controller
         $users = User::find($id);
         $users->delete();
         return response()->json([
-                'message' => 'Product Retrieved Successfully',
+                'message' => 'User Retrieved Successfully',
                 'user' => $users
                ]);
     }
