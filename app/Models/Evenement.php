@@ -10,6 +10,7 @@ class Evenement extends Model
     use HasFactory;
     protected $fillable = [
         'category_evenements_id',
+        'organisateurs_id',
         'libelle',
         'description',
         'adresse',
@@ -18,5 +19,8 @@ class Evenement extends Model
     ];
     public function category_evenements(){
         return $this->belongsTo(CategoryEvenement::class, 'category_evenements_id');
+    }
+    public function organisateurs(){
+        return $this->belongsTo(Organisateur::class, 'organisateurs_id');
     }
 }

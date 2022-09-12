@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryEvenement;
 use App\Models\Evenement;
+use App\Models\Organisateur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,7 +13,9 @@ class EvenementController extends Controller
     public function index()
     {
         try {
-            $evenement = Evenement::orderBy('id', 'desc')->with('category_evenements')->get();
+            $evenement = Evenement::orderBy('id', 'desc')->with('category_evenements')
+                                    ->orderBy('id', 'desc')->with('organisateurs')->get();
+            $organisateur = Evenement::orderBy('id', 'desc')->with('organisateurs')->get();
             if ($evenement) {
                 return response()->json([
                     'success' => true,
@@ -29,6 +32,7 @@ class EvenementController extends Controller
     public function add(Request $request){
         $validation = Validator::make($request->all(), [
             'category_evenements_id' => ['required'],
+            'organisateurs_id' => ['required'],
             'libelle' => ['required'],
             'description' => ['required'],
             'adresse' => ['required'],
@@ -43,6 +47,7 @@ class EvenementController extends Controller
         }else{
             $result = Evenement::create([
                 'category_evenements_id' => $request->category_evenements_id,
+                'organisateurs_id' => $request->organisateurs_id,
                 'libelle' => $request->libelle,
                 'description' => $request->description,
                 'adresse' => $request->adresse,

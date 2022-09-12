@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('evenements', function (Blueprint $table) {
+        Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('category_evenements_id');
-            $table->bigInteger('organisateurs_id');
-            $table->string('libelle');
-            $table->string('description');
-            $table->string('adresse');
-            $table->string('photo');
-            $table->date('date');
+            $table->string('prenom');
+            $table->string('nom');
+            $table->string('email');
+            $table->string('sujet');
+            $table->text('message');
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('evenements');
+        Schema::dropIfExists('contacts');
     }
 };
