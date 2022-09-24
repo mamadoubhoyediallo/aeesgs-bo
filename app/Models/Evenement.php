@@ -17,6 +17,10 @@ class Evenement extends Model
         'photo',
         'date'
     ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
     public function category_evenements(){
         return $this->belongsTo(CategoryEvenement::class, 'category_evenements_id');
     }

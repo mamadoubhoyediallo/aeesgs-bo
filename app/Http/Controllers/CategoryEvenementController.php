@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class CategoryEvenementController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     public function add(Request $request){
         $request->validate([
             'libelle' => 'required',
@@ -19,8 +23,42 @@ class CategoryEvenementController extends Controller
             'categoryEvenement' => $categoryEvenement
         ]);
     }
-    public function findAllCategoryEvent(){
+    public function findAll(){
         $categoryEvenement = CategoryEvenement::all();
         return $categoryEvenement;
+    }
+    public function show($id)
+    {
+        $categoryEvenement = CategoryEvenement::find($id);
+        return response()->json([
+            'status' => 'success',
+            'categoryEvenement' => $categoryEvenement,
+        ]);
+    }
+    public function update(Request $request, $id){
+        $request->validate([
+            'libelle' => 'required|string|max:255',
+        ]);
+
+        $categoryEvenement = CategoryEvenement::find($id);
+        $categoryEvenement->libelle = $request->libelle;
+        $categoryEvenement->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'categoryEvenement updated successfully',
+            'categoryEvenement' => $categoryEvenement,
+        ]);
+    }
+    public function destroy($id)
+    {
+        $categoryEvenement = CategoryEvenement::find($id);
+        $categoryEvenement->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'categoryEvenement deleted successfully',
+            '$categoryEvenement' => $categoryEvenement,
+        ]);
     }
 }
